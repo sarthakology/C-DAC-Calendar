@@ -77,52 +77,64 @@ const LanguagesAdmin = () => {
     }
   };
 
-  if (isLoading) return <div>{t("loading")}</div>;
+  if (isLoading) return (
+    <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-70 z-50">
+    <div className="relative w-16 h-16">
+      <div className="absolute inset-0 border-t-4 border-b-4 border-blue-500 rounded-full animate-spin"></div>
+      <div className="absolute inset-0 border-t-4 border-b-4 border-yellow-500 rounded-full animate-spin animation-delay-300"></div>
+    </div>
+  </div>
+  );
   if (error) return <div>{error}</div>;
 
   return (
-    <div className="container mx-auto p-8">
-      <h1 className="text-2xl font-bold mb-4">{t("editLanguages")}</h1>
-      <div className="flex flex-col space-y-4">
-        {languages.map((language, index) => (
-          <div key={language.id} className="flex items-center space-x-4">
-            <span className="font-bold">{language.id}:</span>
-            <input
-              type="text"
-              value={language.language}
-              onChange={(e) => handleLanguageChange(index, e.target.value)}
-              className="border rounded p-2"
-            />
-            <button
-              onClick={() => handleDeleteLanguage(language.id)}
-              className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-            >
-              {t("delete")}
-            </button>
-          </div>
-        ))}
-      </div>
-      <div className="mt-6">
-        <input
-          type="text"
-          value={newLanguage}
-          onChange={(e) => setNewLanguage(e.target.value)}
-          placeholder={t("newlanguage")}
-          className="border rounded p-2 mb-4"
-        />
+    <div className="flex justify-center p-6">
+      <div className="w-full max-w-lg bg-white shadow-md rounded-lg p-6">
+        <h1 className="text-2xl font-bold mb-6 text-center">{t("editLanguages")}</h1>
+        
+        <div className="flex flex-col space-y-4">
+          {languages.map((language, index) => (
+            <div key={language.id} className="flex items-center space-x-4">
+              <span className="font-semibold">{language.id}:</span>
+              <input
+                type="text"
+                value={language.language}
+                onChange={(e) => handleLanguageChange(index, e.target.value)}
+                className="flex-grow border rounded p-2"
+              />
+              <button
+                onClick={() => handleDeleteLanguage(language.id)}
+                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+              >
+                {t("delete")}
+              </button>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-6">
+          <input
+            type="text"
+            value={newLanguage}
+            onChange={(e) => setNewLanguage(e.target.value)}
+            placeholder={t("newlanguage")}
+            className="w-full border rounded p-2 mb-4"
+          />
+          <button
+            onClick={handleAddLanguage}
+            className="w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+          >
+            {t("addLanguage")}
+          </button>
+        </div>
+
         <button
-          onClick={handleAddLanguage}
-          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+          onClick={handleSubmit}
+          className="mt-6 w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
         >
-          {t("addLanguage")}
+          {t("saveChanges")}
         </button>
       </div>
-      <button
-        onClick={handleSubmit}
-        className="mt-6 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-      >
-        {t("saveChanges")}
-      </button>
     </div>
   );
 };

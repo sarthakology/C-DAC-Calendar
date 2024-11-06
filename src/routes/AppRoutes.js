@@ -10,7 +10,6 @@ import { getMonth } from "../util";
 import UpdatesPage from "../SupportPages/UpdatesPage";
 import MainSettingsPage from "../settings/MainSettingsPage";
 import TrashPage from "../settings/TrashPage";
-import DensityAndColorPage from "../settings/DensityAndColorPage";
 import GetAddonsPage from "../settings/GetAddonsPage";
 import RegisterPage from "../registerPage/RegisterPage";
 import LoginPage from "../loginPage/LoginPage";
@@ -31,30 +30,19 @@ const AppRoutes = () => {
   }, [monthIndex]);
 
   useEffect(() => {
-    // Show loader when accessing the token
-    setLoader(true); // Start loader before token is fetched
-
-    // Simulate async token fetch
+    setLoader(true);
     setTimeout(() => {
       const handleStorageChange = () => {
         setAccessToken(localStorage.getItem("accessToken"));
       };
-
-      // Listen for changes to localStorage
       window.addEventListener("storage", handleStorageChange);
-
-      // Also check periodically for changes
       const checkTokenInterval = setInterval(handleStorageChange, 500);
-
-      // Hide loader after the token is fetched or checked
       setLoader(false);
-
-      // Cleanup event listener and interval on component unmount
       return () => {
         window.removeEventListener("storage", handleStorageChange);
         clearInterval(checkTokenInterval);
       };
-    }, 1000); // Simulate delay (e.g., API call delay or token validation)
+    }, 1000);
   }, [setLoader]);
 
   return (
@@ -107,7 +95,6 @@ const AppRoutes = () => {
         {/* Settings Pages */}
         <Route path="/setting" element={<><CalendarHeader /><MainSettingsPage /></>} />
         <Route path="/trash" element={<><CalendarHeader /><TrashPage /></>} />
-        <Route path="/DensityAndColor" element={<><CalendarHeader /><DensityAndColorPage /></>} />
         <Route path="/Get-add-ons" element={<><CalendarHeader /><GetAddonsPage /></>} />
 
         <Route path="/screensaver" element={<CalendarScreenSaver/>} />
@@ -120,8 +107,18 @@ const AppRoutes = () => {
         <Route
           path="*"
           element={
-            <div className="flex justify-center items-center h-screen">
-              <h1 className="text-2xl font-bold text-red-500">404 - Page Not Found</h1>
+            <div className="flex flex-col justify-center items-center h-screen bg-gradient-to-r from-indigo-500 to-purple-600 text-white">
+              <h1 className="text-6xl font-extrabold mb-4 animate-pulse">404</h1>
+              <p className="text-2xl font-semibold mb-4">Oops! Page Not Found</p>
+              <p className="text-lg text-center max-w-md mb-6">
+                It seems the page you’re looking for doesn’t exist. It may have been moved or deleted.
+              </p>
+              <button
+                onClick={() => window.location.href = '/'}
+                className="px-6 py-3 bg-white text-purple-600 font-medium rounded-lg hover:bg-purple-700 hover:text-white transition duration-300"
+              >
+                Go Back Home
+              </button>
             </div>
           }
         />

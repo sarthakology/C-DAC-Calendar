@@ -19,6 +19,7 @@ const TimezonesAdmin = () => {
         setTimezones(response.data);
       } catch (err) {
         setError(t("Failed to load timezones."));
+        toast.error(t("Failed to load timezones."));
       } finally {
         setIsLoading(false);
       }
@@ -92,55 +93,64 @@ const TimezonesAdmin = () => {
     }
   };
 
-  if (isLoading) return <div>{t("loading")}</div>;
+  if (isLoading) return (
+    <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-70 z-50">
+    <div className="relative w-16 h-16">
+      <div className="absolute inset-0 border-t-4 border-b-4 border-blue-500 rounded-full animate-spin"></div>
+      <div className="absolute inset-0 border-t-4 border-b-4 border-yellow-500 rounded-full animate-spin animation-delay-300"></div>
+    </div>
+  </div>
+  );
   if (error) return <div>{error}</div>;
 
   return (
-    <div className="container mx-auto p-8">
-      <h1 className="text-2xl font-bold mb-4">{t("editTimezones")}</h1>
-      <div className="flex flex-col space-y-4">
-        {timezones.map((timezone, index) => (
-          <div key={timezone.id} className="flex items-center space-x-4">
-            <span className="font-bold">{timezone.id}:</span>
-            <input
-              type="text"
-              value={timezone.timezone}
-              onChange={(e) => handleTimezoneChange(index, e.target.value)}
-              className="border rounded p-2"
-            />
-            <button
-              onClick={() => handleDeleteTimezone(timezone.id)}
-              className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-              disabled={actionLoading}
-            >
-              {t("delete")}
-            </button>
-          </div>
-        ))}
-      </div>
-      <div className="mt-6">
-        <input
-          type="text"
-          value={newTimezone}
-          onChange={(e) => setNewTimezone(e.target.value)}
-          placeholder={t("newtimezone")}
-          className="border rounded p-2 mb-4"
-        />
+    <div className="flex justify-center p-6">
+      <div className="w-full max-w-lg bg-white shadow-md rounded-lg p-6">
+        <h1 className="text-2xl font-bold mb-4 text-center">{t("editTimezones")}</h1>
+        <div className="flex flex-col space-y-4">
+          {timezones.map((timezone, index) => (
+            <div key={timezone.id} className="flex items-center space-x-4">
+              <span className="font-bold">{timezone.id}:</span>
+              <input
+                type="text"
+                value={timezone.timezone}
+                onChange={(e) => handleTimezoneChange(index, e.target.value)}
+                className="border rounded p-2 w-full"
+              />
+              <button
+                onClick={() => handleDeleteTimezone(timezone.id)}
+                className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+                disabled={actionLoading}
+              >
+                {t("delete")}
+              </button>
+            </div>
+          ))}
+        </div>
+        <div className="mt-6 flex flex-col items-center">
+          <input
+            type="text"
+            value={newTimezone}
+            onChange={(e) => setNewTimezone(e.target.value)}
+            placeholder={t("newtimezone")}
+            className="border rounded p-2 mb-4 w-full"
+          />
+          <button
+            onClick={handleAddTimezone}
+            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 w-full"
+            disabled={actionLoading}
+          >
+            {t("addTimezone")}
+          </button>
+        </div>
         <button
-          onClick={handleAddTimezone}
-          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+          onClick={handleSubmit}
+          className="mt-6 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full"
           disabled={actionLoading}
         >
-          {t("addTimezone")}
+          {t("saveChanges")}
         </button>
       </div>
-      <button
-        onClick={handleSubmit}
-        className="mt-6 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-        disabled={actionLoading}
-      >
-        {t("saveChanges")}
-      </button>
     </div>
   );
 };

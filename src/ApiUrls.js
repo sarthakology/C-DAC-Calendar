@@ -2,6 +2,8 @@ const API_BASE_URL = 'http://localhost:8083';
 
 const API_URLS = {
 
+  // ------------------------ USER ROUTE ------------------------ //
+  // ---------------------- REQUIRE TOKEN ---------------------- //
     //login register
   LOGIN: `${API_BASE_URL}/auth/token`,
   REGISTER: `${API_BASE_URL}/auth/register`,
@@ -9,7 +11,7 @@ const API_URLS = {
   //refresh token
   REFRESH_TOKEN: `${API_BASE_URL}/auth/refreshToken`,
 
-// user
+  //user
   GET_USER_PROFILE: `${API_BASE_URL}/auth/get/user`,
   UPDATE_USER_PROFILE: `${API_BASE_URL}/auth/update/user`,
   SEARCH_USER_PROFILE: (email) => `${API_BASE_URL}/auth/search/${email}`,
@@ -30,7 +32,7 @@ const API_URLS = {
   TRASH: `${API_BASE_URL}/event/trashed`,
   DELETE_TRASH_EVENT: (id) => `${API_BASE_URL}/event/trash/${id}/delete`,
 
-  //                      admin only 
+  // ------------------------ ADMIN ONLY ------------------------ //
 
 
   //CRUD on masters of countries
@@ -61,7 +63,6 @@ const API_URLS = {
   //get all user's role
   GET_ROLE: `${API_BASE_URL}/auth/admin/users`,
   UPDATE_ROLE: `${API_BASE_URL}/auth/admin/change-role`,
-  // DELETE_USER: `${API_BASE_URL}/auth/admin/delete-user`,
   DELETE_USER: (email) => `${API_BASE_URL}/auth/admin/delete/${email}`,
 };
 
