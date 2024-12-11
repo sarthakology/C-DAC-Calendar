@@ -28,9 +28,7 @@ export default function DeleteUsersAdmin() {
   // Delete user account immediately without confirmation
   const handleDelete = async (email) => {
     try {
-      await axios.delete(API_URLS.DELETE_USER, {
-        data: { email },
-      });
+      await axios.delete(API_URLS.DELETE_USER(email));
       toast.success(t('user Deleted Successfully', { email }));
       setUsers(users.filter(user => user.email !== email)); // Update UI
     } catch (error) {
